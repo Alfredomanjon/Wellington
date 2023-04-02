@@ -1,0 +1,25 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-wellington-dev-135223-authRole",
+      "UnauthRoleArn": "arn:aws:iam::480475999512:role/amplify-wellington-dev-135223-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::480475999512:role/amplify-wellington-dev-135223-authRole",
+      "Region": "eu-west-1",
+      "DeploymentBucketName": "amplify-wellington-dev-135223-deployment",
+      "UnauthRoleName": "amplify-wellington-dev-135223-unauthRole",
+      "StackName": "amplify-wellington-dev-135223",
+      "StackId": "arn:aws:cloudformation:eu-west-1:480475999512:stack/amplify-wellington-dev-135223/e441f500-cb0b-11ed-948c-06debac559ab",
+      "AmplifyAppId": "d1utewa9r1gvyh"
+    },
+    "categories": {
+      "auth": {
+        "wellington3157e6d5": {
+          "userPoolId": "eu-west-1_TKVAFn66T",
+          "userPoolName": "Wellington-users-pool",
+          "webClientId": "4e1itmck4nq68vprdjc07lcmcn",
+          "nativeClientId": "4e1itmck4nq68vprdjc07lcmcn"
+        }
+      }
+    }
+  }
+}

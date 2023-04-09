@@ -19,6 +19,10 @@
         v-if="this.page == this.CHECKPOINT"
         :setEmailPassForm="this.setEmailPassForm"
       />
+      <VerificationMail
+        v-if="this.page == this.VERIFICATION"
+        :username="this.email"
+      />
     </div>
   </div>
 </template>
@@ -31,6 +35,7 @@ import Transition1 from '../features/Signup/Transition1.vue';
 import NameForm from '../features/Signup/NameForm.vue';
 import RestaurantForm from '../features/Signup/RestaurantForm.vue';
 import EmailPassForm from '../features/Signup/EmailPassForm.vue';
+import VerificationMail from '../features/Signup/VerificationMail.vue';
 export default {
   data() {
     return {
@@ -40,7 +45,7 @@ export default {
       NAME_FORM: 2,
       RESTAURANT_FORM: 3,
       CHECKPOINT: 4,
-      FINISH: 5,
+      VERIFICATION: 5,
       name: '',
       surnames: '',
       restaurantName: '',
@@ -58,12 +63,14 @@ export default {
     NameForm,
     RestaurantForm,
     EmailPassForm,
+    VerificationMail,
   },
   methods: {
     async signUp() {
       try {
         const { user } = await Auth.signUp(this.email, this.password);
         console.log(user);
+        this.setNextPage();
       } catch (error) {
         console.log('error signing up:', error);
       }

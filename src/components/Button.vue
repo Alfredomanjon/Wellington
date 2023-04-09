@@ -37,7 +37,7 @@ export default {
 
 <style scoped>
 .component-button {
-  width: 200px;
+  min-width: 200px;
   height: 50px;
   border-radius: 200px;
   color: white;
@@ -53,5 +53,17 @@ export default {
 .component-button--outlined {
   background-color: white;
   border: 2px solid #00898f;
+}
+
+.component-button--text {
+  background-color: transparent;
+  color: #00bac2;
+  text-decoration: none;
+  border: 0px;
+}
+
+.component-button--text:hover {
+  color: #00898f;
+  text-decoration: underline;
 }
 </style>

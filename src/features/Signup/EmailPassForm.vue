@@ -8,10 +8,12 @@
           :onChange="(event) => (this.email = event.target.value)"
         />
         <Input
+          type="password"
           placeholder="Contraseña"
           :onChange="(event) => (this.password = event.target.value)"
         />
         <Input
+          type="password"
           placeholder="Repetir Contraseña"
           :onChange="(event) => (this.repeatPassword = event.target.value)"
         />

@@ -36,10 +36,11 @@ import NameForm from '../features/Signup/NameForm.vue';
 import RestaurantForm from '../features/Signup/RestaurantForm.vue';
 import EmailPassForm from '../features/Signup/EmailPassForm.vue';
 import VerificationMail from '../features/Signup/VerificationMail.vue';
+import { post } from '../utils/api';
 export default {
   data() {
     return {
-      page: ref(0),
+      page: ref(4),
       ONBOARDING: 0,
       TRANSITION1: 1,
       NAME_FORM: 2,
@@ -70,6 +71,9 @@ export default {
       try {
         const { user } = await Auth.signUp(this.email, this.password);
         console.log(user);
+        window.localStorage.setItem('user', JSON.stringify(user));
+        const res = post('/restaurant', { restaurantId: user['username'] });
+        console.log(res);
         this.setNextPage();
       } catch (error) {
         console.log('error signing up:', error);

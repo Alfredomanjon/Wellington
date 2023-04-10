@@ -6,12 +6,10 @@
         Introduce un código que te hemos enviado a tu dirección de correo
         electrónico.
       </p>
-      <form onSubmit="">
-        <Input
-          placeholder="XXXXXX"
-          :onChange="(event) => (this.code = event.target.value)"
-        />
-      </form>
+      <Input
+        placeholder="XXXXXX"
+        :onChange="(event) => (this.code = event.target.value)"
+      />
       <Button
         defaultVariant="text"
         v-on:click="this.resendConfirmationCode()"
@@ -61,7 +59,7 @@ export default {
     async confirmSignUp() {
       try {
         await Auth.confirmSignUp(this.username, this.code);
-        this.$router.push('profile');
+        window.location.replace('/profile');
       } catch (error) {
         console.log('error confirming sign up', error);
       }

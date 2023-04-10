@@ -61,7 +61,7 @@ export default {
     async confirmSignUp() {
       try {
         await Auth.confirmSignUp(this.username, this.code);
-        this.$router.push('home');
+        this.$router.push('profile');
       } catch (error) {
         console.log('error confirming sign up', error);
       }

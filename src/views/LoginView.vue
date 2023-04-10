@@ -94,6 +94,7 @@
 
 <script>
 import { Auth } from 'aws-amplify';
+window.dispatchEvent(new Event('storage'));
 export default {
   data() {
     return {
@@ -109,6 +110,7 @@ export default {
         const user = await Auth.signIn(this.email, this.password);
         console.log(user);
         window.localStorage.setItem('user', JSON.stringify(user));
+        window.location.replace('/profile');
       } catch (error) {
         console.log('error signing in', error);
       }

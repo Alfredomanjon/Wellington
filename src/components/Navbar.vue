@@ -47,10 +47,6 @@
 import Button from '../components/Button.vue';
 import { ref } from 'vue';
 let isLogged = ref(window.localStorage.getItem('user') !== null);
-window.addEventListener('login', () => {
-  console.log('ENTRA');
-  isLogged = true;
-});
 export default {
   data() {
     return {
@@ -64,6 +60,7 @@ export default {
     closeSession() {
       window.localStorage.removeItem('user');
       this.isLogged = false;
+      this.$router.replace({ path: '/login' });
     },
   },
 };

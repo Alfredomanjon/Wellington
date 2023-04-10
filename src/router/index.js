@@ -1,7 +1,8 @@
-import { createRouter, createWebHashHistory } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import LoginView from '../views/LoginView.vue';
 import SignupView from '../views/SignupView.vue';
+import ProfileView from '../views/ProfileView.vue';
 
 const routes = [
   {
@@ -19,11 +20,16 @@ const routes = [
     name: 'signup',
     component: SignupView,
   },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: ProfileView,
+  },
 ];
 
 const router = createRouter({
   // 4. Provide the history implementation to use. We are using the hash history for simplicity here.
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes, // short for `routes: routes`
 });
 

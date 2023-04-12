@@ -21,13 +21,19 @@
         </li>
       </ul>
       <form v-if="this.isLogged" class="form-inline my-0 my-lg-0">
-        <Button
-          v-on:click="this.closeSession()"
-          defaultVariant="text"
-          className="navbar-item navbar-signup-buttom"
-        >
-          <a class="nav-link">Cerrar sesión</a>
-        </Button>
+        <router-link to="/profile">
+          <div
+            class="navbar-profile-container d-flex justify-content-end align-items-center"
+          >
+            <img src="../assets/restaurant-icon.png" width="30" />
+            <div
+              defaultVariant="text"
+              className="navbar-item navbar-profile-text d-flex align-items-center"
+            >
+              <a class="nav-link navbar-profile-text-link">Mi restaurante</a>
+            </div>
+          </div>
+        </router-link>
       </form>
       <form v-if="!this.isLogged" class="form-inline my-0 my-lg-0">
         <router-link to="/login">
@@ -66,7 +72,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .navbar {
   box-shadow: 0px 6px 6px -7px rgba(0, 0, 0, 0.3);
   background-color: rgb(253, 253, 253);
@@ -88,5 +94,32 @@ export default {
   padding: 0.3rem 1rem;
   font-weight: 600;
   text-decoration: none !important;
+}
+
+.navbar-profile-text {
+  height: 40px !important;
+  border-radius: 200px;
+  text-decoration: none;
+}
+
+.navbar-profile-text a {
+  color: #00898f;
+  font-weight: 700;
+  padding: 0%;
+}
+
+.navbar-profile-text-link:hover {
+  text-decoration: none !important;
+}
+
+.navbar-profile-container {
+  padding-right: 20px;
+  padding-left: 20px;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+.navbar-profile-container:hover {
+  background-color: #7ed4da5d;
 }
 </style>

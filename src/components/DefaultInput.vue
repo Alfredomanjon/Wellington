@@ -24,7 +24,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .default-input {
   text-align: center;
   width: 350px;

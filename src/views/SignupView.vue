@@ -22,6 +22,8 @@
       <VerificationMail
         v-if="this.page == this.VERIFICATION"
         :username="this.email"
+        :password="this.password"
+        :data="this.data"
       />
     </div>
   </div>
@@ -36,17 +38,17 @@ import NameForm from '../features/Signup/NameForm.vue';
 import RestaurantForm from '../features/Signup/RestaurantForm.vue';
 import EmailPassForm from '../features/Signup/EmailPassForm.vue';
 import VerificationMail from '../features/Signup/VerificationMail.vue';
-import { post } from '../utils/api';
 export default {
   data() {
     return {
-      page: ref(4),
+      page: ref(0),
       ONBOARDING: 0,
       TRANSITION1: 1,
       NAME_FORM: 2,
       RESTAURANT_FORM: 3,
       CHECKPOINT: 4,
       VERIFICATION: 5,
+      data: {},
       name: '',
       surnames: '',
       restaurantName: '',
@@ -70,14 +72,22 @@ export default {
     async signUp() {
       try {
         const { user } = await Auth.signUp(this.email, this.password);
-        console.log(user);
-        window.localStorage.setItem('user', JSON.stringify(user));
-        const res = post('/restaurant', { restaurantId: user['username'] });
-        console.log(res);
+        this.createUserInfoJSON();
         this.setNextPage();
       } catch (error) {
         console.log('error signing up:', error);
       }
+    },
+    createUserInfoJSON() {
+      this.data = {
+        name: this.name,
+        surnames: this.surnames,
+        restaurantName: this.restaurantName,
+        restaurantAddress: this.restaurantAddress,
+        restaurantCity: this.restaurantCity,
+        restaurantZIP: this.restaurantZIP,
+        email: this.email,
+      };
     },
     setNextPage() {
       this.page++;

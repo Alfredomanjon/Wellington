@@ -34,6 +34,7 @@ import { Auth } from 'aws-amplify';
 import FadeInContainer from '../../components/FadeInContainer.vue';
 import Input from '../../components/DefaultInput.vue';
 import Button from '../../components/Button.vue';
+import { post } from '../../utils/api';
 export default {
   data() {
     return {
@@ -47,8 +48,23 @@ export default {
   },
   props: {
     username: undefined,
+    password: undefined,
+    data: undefined,
   },
   methods: {
+    async signIn() {
+      try {
+        const user = await Auth.signIn(this.username, this.password);
+        const res = await post('/restaurant', {
+          restaurantId: user['username'],
+          data: this.data,
+        });
+        window.localStorage.setItem('user', JSON.stringify(user));
+        window.location.replace('/profile');
+      } catch (error) {
+        console.log('error signing in', error);
+      }
+    },
     async resendConfirmationCode() {
       try {
         await Auth.resendSignUp(this.username);
@@ -59,7 +75,7 @@ export default {
     async confirmSignUp() {
       try {
         await Auth.confirmSignUp(this.username, this.code);
-        window.location.replace('/profile');
+        await this.signIn();
       } catch (error) {
         console.log('error confirming sign up', error);
       }

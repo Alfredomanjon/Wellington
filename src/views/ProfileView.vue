@@ -2,7 +2,7 @@
   <div class="profile-container">
     <div class="d-flex justify-content-between align-items-center">
       <p class="profile-title">Mi Restaurante</p>
-      <div
+      <button
         class="profile-close-session-container d-flex justify-content-end align-items-center"
       >
         <img
@@ -13,34 +13,37 @@
         <div v-on:click="this.closeSession()" class="d-flex align-items-center">
           <a class="profile-close-session-text">Cerrar sesión</a>
         </div>
-      </div>
+      </button>
     </div>
-    <div class="d-flex justify-content-center align-items-center">
-      <div
-        class="upload-predict-image-container d-flex justify-content-center align-items-center"
-      >
-        <div
-          class="d-flex align-items-start justify-content-center flex-column"
-        >
-          <img
-            src="../assets/drop-image-icon.png"
-            width="80"
-            class="close-session-icon"
-          />
-          <p class="upload-predict-image-title">
-            Inserta una imagen para clasificar un plato
-          </p>
-        </div>
-      </div>
+    <div class="predict-options-container">
+      <PredictButton
+        :filename="this.addImage"
+        title="Insertar una imagen para clasificar un plato"
+      />
+      <PredictButton
+        :filename="this.cameraImage"
+        title="Tomar una imagen para clasificar un plato"
+      />
     </div>
+    <p class="profile-sub-title">Platos registrados en el modelo</p>
+    <div class="dishes-container"></div>
   </div>
 </template>
 
 <script>
 import getIsLogged from '../utils/getIsLogged';
 import Button from '../components/Button.vue';
+import PredictButton from '../components/PredictButton.vue';
+import imageIcon from '../assets/drop-image-icon.png';
+import cameraIcon from '../assets/camera-icon.png';
 console.log(getIsLogged());
 export default {
+  data() {
+    return {
+      cameraImage: cameraIcon,
+      addImage: imageIcon,
+    };
+  },
   created() {
     if (!getIsLogged()) {
       this.$router.push('login');
@@ -48,6 +51,7 @@ export default {
   },
   components: {
     Button,
+    PredictButton,
   },
   methods: {
     closeSession() {
@@ -72,6 +76,12 @@ export default {
   margin-bottom: 0px;
 }
 
+.profile-sub-title {
+  font-weight: 700;
+  font-size: 26px;
+  margin-bottom: 0px;
+}
+
 .profile-close-session-container {
   padding-right: 20px;
   padding-left: 20px;
@@ -79,6 +89,8 @@ export default {
   height: 40px !important;
   text-decoration: none;
   transition: 0.3s;
+  border: 0px;
+  background-color: transparent;
 }
 
 .profile-close-session-container:hover {
@@ -95,18 +107,19 @@ export default {
   margin-right: 3px;
 }
 
-.upload-predict-image-container {
+.predict-options-container {
+  margin-left: 10%;
+  margin-right: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
   margin-top: 50px;
-  outline: 5px dashed #00898f;
-  border-radius: 20px;
-  width: 90%;
-  height: 300px;
+  margin-bottom: 35px;
 }
 
-.upload-predict-image-title {
-  color: #029aa2;
-  font-weight: 700;
-  font-size: 20px;
-  margin-bottom: 0px;
+.profile-sub-title {
+  margin-left: 10%;
+  margin-right: 10%;
 }
 </style>

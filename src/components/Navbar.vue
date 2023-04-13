@@ -22,17 +22,17 @@
       </ul>
       <form v-if="this.isLogged" class="form-inline my-0 my-lg-0">
         <router-link to="/profile">
-          <div
-            class="navbar-profile-container d-flex justify-content-end align-items-center"
+          <button
+            class="navbar-profile-container navbar-item d-flex justify-content-end align-items-center"
           >
             <img src="../assets/restaurant-icon.png" width="30" />
             <div
               defaultVariant="text"
-              className="navbar-item navbar-profile-text d-flex align-items-center"
+              className=" navbar-profile-text d-flex align-items-center"
             >
-              <a class="nav-link navbar-profile-text-link">Mi restaurante</a>
+              <a class="navbar-profile-text-link">Mi restaurante</a>
             </div>
-          </div>
+          </button>
         </router-link>
       </form>
       <form v-if="!this.isLogged" class="form-inline my-0 my-lg-0">
@@ -117,6 +117,8 @@ export default {
   padding-left: 20px;
   border-radius: 10px;
   transition: 0.3s;
+  border: 0px;
+  background-color: transparent;
 }
 
 .navbar-profile-container:hover {

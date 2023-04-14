@@ -1,6 +1,9 @@
 <template>
+  <CameraModal v-if="this.openModal" :closeModal="this.closeCameraModal" />
   <div class="profile-container">
-    <div class="d-flex justify-content-between align-items-center">
+    <div
+      class="profile-top-container d-flex justify-content-between align-items-center"
+    >
       <p class="profile-title">Mi Restaurante</p>
       <button
         class="profile-close-session-container d-flex justify-content-end align-items-center"
@@ -15,18 +18,36 @@
         </div>
       </button>
     </div>
-    <div class="predict-options-container">
-      <PredictButton
-        :filename="this.addImage"
-        title="Insertar una imagen para clasificar un plato"
-      />
-      <PredictButton
-        :filename="this.cameraImage"
-        title="Tomar una imagen para clasificar un plato"
-      />
+    <div class="predict-container">
+      <div class="predict-options-container">
+        <input
+          id="input-archivo"
+          type="file"
+          accept="image/*"
+          @change="cargarArchivo"
+          hidden
+        />
+        <PredictButton
+          :filename="this.addImage"
+          :defaultClick="this.chooseFiles"
+          title="Insertar una imagen para clasificar un plato"
+        />
+        <PredictButton
+          :defaultClick="this.openCamaraModal"
+          :filename="this.cameraImage"
+          title="Tomar una imagen para clasificar un plato"
+        />
+      </div>
+      <p class="profile-sub-title">Platos registrados en el modelo</p>
+      <div class="dishes-container">
+        <DishCard />
+        <div
+          class="new-dish-container d-flex justify-content-center align-items-center"
+        >
+          <img src="../assets/add-dish-icon.png" width="60" />
+        </div>
+      </div>
     </div>
-    <p class="profile-sub-title">Platos registrados en el modelo</p>
-    <div class="dishes-container"></div>
   </div>
 </template>
 
@@ -34,6 +55,8 @@
 import getIsLogged from '../utils/getIsLogged';
 import Button from '../components/Button.vue';
 import PredictButton from '../components/PredictButton.vue';
+import DishCard from '../components/DishCard.vue';
+import CameraModal from '../components/CameraModal.vue';
 import imageIcon from '../assets/drop-image-icon.png';
 import cameraIcon from '../assets/camera-icon.png';
 console.log(getIsLogged());
@@ -42,6 +65,7 @@ export default {
     return {
       cameraImage: cameraIcon,
       addImage: imageIcon,
+      openModal: false,
     };
   },
   created() {
@@ -52,6 +76,8 @@ export default {
   components: {
     Button,
     PredictButton,
+    DishCard,
+    CameraModal,
   },
   methods: {
     closeSession() {
@@ -59,15 +85,34 @@ export default {
       this.isLogged = false;
       window.location.replace('/login');
     },
+    cargarArchivo(event) {
+      const archivo = event.target.files[0];
+      console.log('Archivo seleccionado:', archivo);
+      // Aquí puedes trabajar con el archivo, por ejemplo, cargarlo en una API o procesarlo en el cliente
+    },
+    chooseFiles() {
+      document.getElementById('input-archivo').click();
+    },
+    openCamaraModal() {
+      this.openModal = true;
+    },
+    closeCameraModal() {
+      this.openModal = false;
+    },
   },
 };
 </script>
 
 <style scoped>
 .profile-container {
-  margin-top: 80px;
-  padding-left: 40px;
-  padding-right: 40px;
+  background-color: rgb(251, 251, 251);
+  min-height: calc(100vh - 54px);
+}
+
+.profile-top-container {
+  background-color: white;
+  padding: 15px 40px;
+  margin-top: 54px;
 }
 
 .profile-title {
@@ -107,19 +152,36 @@ export default {
   margin-right: 3px;
 }
 
+.predict-container {
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
 .predict-options-container {
-  margin-left: 10%;
-  margin-right: 10%;
   display: flex;
-  justify-content: center;
   align-items: center;
   gap: 30px;
   margin-top: 50px;
   margin-bottom: 35px;
 }
 
-.profile-sub-title {
-  margin-left: 10%;
-  margin-right: 10%;
+.insert-image-label {
+  width: 100%;
+}
+
+.dishes-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  gap: 10px;
+}
+
+.new-dish-container {
+  display: flex;
+  border: 3px dashed #00898f;
+  border-radius: 20px;
+  height: 150px;
+  width: 150px;
 }
 </style>

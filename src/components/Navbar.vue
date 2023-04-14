@@ -5,7 +5,7 @@
         alt="Wellington logo"
         class="navbar-logo"
         src="../assets/logo-no-name.png"
-        width="55"
+        height="38"
       />
     </router-link>
     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">

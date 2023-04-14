@@ -1,6 +1,7 @@
 <template>
   <button
     class="upload-predict-image-container d-flex justify-content-center align-items-center"
+    @click="this.defaultClick()"
   >
     <div class="d-flex align-items-center justify-content-center flex-column">
       <img v-bind:src="filename" width="60" class="close-session-icon" />
@@ -16,15 +17,16 @@ export default {
   props: {
     filename: undefined,
     title: undefined,
+    defaultClick: undefined,
   },
 };
 </script>
 
 <style scoped>
 .upload-predict-image-container {
-  background-color: #f6f6f6;
+  width: 100%;
+  background-color: rgb(245, 245, 245);
   border-radius: 20px;
-  width: 90%;
   height: 300px;
   transition: 0.3s;
   border: 0px;

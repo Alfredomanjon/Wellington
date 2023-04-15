@@ -1,9 +1,7 @@
 <template>
   <CameraModal v-if="this.openModal" :closeModal="this.closeCameraModal" />
   <div class="profile-container">
-    <div
-      class="profile-top-container d-flex justify-content-between align-items-center"
-    >
+    <div class="profile-top-container">
       <p class="profile-title">Mi Restaurante</p>
       <button
         class="profile-close-session-container d-flex justify-content-end align-items-center"
@@ -14,7 +12,9 @@
           class="close-session-icon"
         />
         <div v-on:click="this.closeSession()" class="d-flex align-items-center">
-          <a class="profile-close-session-text">Cerrar sesión</a>
+          <a class="profile-close-session-text" style="text-decoration: none"
+            >Cerrar sesión</a
+          >
         </div>
       </button>
     </div>
@@ -110,6 +110,9 @@ export default {
 }
 
 .profile-top-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   background-color: white;
   padding: 15px 40px;
   margin-top: 54px;
@@ -183,5 +186,34 @@ export default {
   border-radius: 20px;
   height: 150px;
   width: 150px;
+}
+
+@media only screen and (max-width: 600px) {
+  .profile-title {
+    font-weight: 700;
+    font-size: 40px;
+    margin-bottom: 0px;
+  }
+
+  .profile-top-container {
+    display: block;
+    padding: 20px 30px;
+  }
+
+  .profile-close-session-container {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+
+  .predict-options-container {
+    display: block;
+    margin-top: 30px;
+  }
+
+  .predict-container {
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-bottom: 30px;
+  }
 }
 </style>

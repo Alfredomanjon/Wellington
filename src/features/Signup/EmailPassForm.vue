@@ -87,6 +87,8 @@ export default {
 .checkpoint-title {
   font-size: 40px;
   font-weight: 700;
+  text-align: center;
+  color: #2c3e50;
 }
 
 .form-check {

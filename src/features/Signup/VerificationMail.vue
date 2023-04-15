@@ -100,6 +100,14 @@ export default {
   font-weight: 700;
   margin-top: 15px;
   margin-bottom: 15px;
+  text-align: center;
+  color: #2c3e50;
+}
+
+.verification-container p {
+  text-align: center;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .resend-button {

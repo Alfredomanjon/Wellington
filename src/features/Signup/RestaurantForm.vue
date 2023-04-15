@@ -90,6 +90,7 @@ export default {
 .restaurant-title {
   font-size: 40px;
   font-weight: 700;
+  color: #2c3e50;
 }
 
 .username-title {
@@ -98,6 +99,8 @@ export default {
 
 .restaurant-title-container {
   text-align: center;
+  padding-right: 10px;
+  padding-left: 10px;
 }
 
 .restaurant-form-button {

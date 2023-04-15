@@ -1,6 +1,11 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light fixed-top">
-    <router-link to="/" class="navbar-item-link">
+    <router-link
+      to="/"
+      class="navbar-item-link"
+      data-toggle="collapse"
+      data-target=".navbar-collapse.show"
+    >
       <img
         alt="Wellington logo"
         class="navbar-logo"
@@ -8,20 +13,50 @@
         height="38"
       />
     </router-link>
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
         <li class="nav-item">
-          <a class="nav-link" href="#">En tu restaurante</a>
+          <a
+            class="nav-link"
+            href="#"
+            data-toggle="collapse"
+            data-target=".navbar-collapse.show"
+            >En tu restaurante</a
+          >
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Red Wellington</a>
+          <a
+            class="nav-link"
+            href="#"
+            data-toggle="collapse"
+            data-target=".navbar-collapse.show"
+            >Red Wellington</a
+          >
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Soporte</a>
+          <a
+            class="nav-link"
+            href="#"
+            data-toggle="collapse"
+            data-target=".navbar-collapse.show"
+            >Soporte</a
+          >
         </li>
       </ul>
       <form v-if="this.isLogged" class="form-inline my-0 my-lg-0">
-        <router-link to="/profile">
+        <router-link to="/profile" style="text-decoration: none">
           <button
             class="navbar-profile-container navbar-item d-flex justify-content-end align-items-center"
           >
@@ -30,19 +65,34 @@
               defaultVariant="text"
               className=" navbar-profile-text d-flex align-items-center"
             >
-              <a class="navbar-profile-text-link">Mi restaurante</a>
+              <a
+                class="navbar-profile-text-link"
+                data-toggle="collapse"
+                data-target=".navbar-collapse.show"
+                >Mi restaurante</a
+              >
             </div>
           </button>
         </router-link>
       </form>
       <form v-if="!this.isLogged" class="form-inline my-0 my-lg-0">
         <router-link to="/login">
-          <Button
-            defaultVariant="outlined"
-            className="navbar-item navbar-signup-buttom"
+          <button
+            class="navbar-profile-container navbar-item d-flex justify-content-end align-items-center"
           >
-            <a class="nav-link">Iniciar sesión</a>
-          </Button>
+            <img src="../assets/login-access-icon.png" width="30" />
+            <div
+              defaultVariant="text"
+              className=" navbar-profile-text d-flex align-items-center"
+            >
+              <a
+                class="navbar-profile-text-link"
+                data-toggle="collapse"
+                data-target=".navbar-collapse.show"
+                >Iniciar sesión</a
+              >
+            </div>
+          </button>
         </router-link>
       </form>
     </div>
@@ -75,7 +125,7 @@ export default {
 <style scoped>
 .navbar {
   box-shadow: 0px 6px 6px -7px rgba(0, 0, 0, 0.3);
-  background-color: rgb(253, 253, 253);
+  background-color: rgba(253, 253, 253, 0.951);
 }
 .navbar-logo {
   padding-right: 8px;
@@ -123,5 +173,12 @@ export default {
 
 .navbar-profile-container:hover {
   background-color: #7ed4da5d;
+}
+
+@media only screen and (max-width: 600px) {
+  .navbar-profile-container {
+    padding-right: 0px;
+    padding-left: 0px;
+  }
 }
 </style>

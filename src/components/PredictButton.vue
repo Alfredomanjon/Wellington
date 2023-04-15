@@ -42,4 +42,12 @@ export default {
   font-size: 20px;
   margin-bottom: 0px;
 }
+
+@media only screen and (max-width: 600px) {
+  .upload-predict-image-container {
+    height: 200px;
+    margin-top: 20px;
+    padding: 10px;
+  }
+}
 </style>

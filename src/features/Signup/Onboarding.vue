@@ -45,10 +45,21 @@ export default {
   font-weight: 700;
   margin-top: 15px;
   margin-bottom: 6px;
+  text-align: center;
+  line-height: 1;
+  color: #2c3e50;
+}
+
+.signup-onboarding-container p {
+  text-align: center;
+  padding-left: 10%;
+  padding-right: 10%;
+  padding-top: 20px;
+  color: #2c3e50;
 }
 
 .signup-onboarding-button {
-  margin-top: 20px;
+  margin-top: 15px;
   margin-bottom: 50px;
 }
 

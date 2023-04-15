@@ -1,8 +1,19 @@
 <template>
   <div class="custom-modal-drawer">
-    <button class="close-modal" @click="this.closeModal()">
+    <button
+      v-if="this.screenWidth >= 600"
+      class="close-modal"
+      @click="this.closeModal()"
+    >
       <img
         src="../assets/close-modal-icon.png"
+        width="30"
+        class="close-session-icon"
+      />
+    </button>
+    <button v-else class="close-modal" @click="this.closeModal()">
+      <img
+        src="../assets/close-modal-icon-mobile.png"
         width="30"
         class="close-session-icon"
       />
@@ -21,28 +32,23 @@
 </template>
 
 <script>
-const constraints = {
-  video: {
-    width: {
-      min: 965,
-      max: 965,
-    },
-    height: {
-      min: 540,
-      max: 540,
-    },
-  },
-};
 export default {
+  apply() {
+    return {
+      screenWidth: 0,
+    };
+  },
   props: {
     closeModal: undefined,
   },
   async created() {
+    this.screenWidth = window.innerWidth;
+    console.log(this.screenWidth);
     if (
       'mediaDevices' in navigator &&
       'getUserMedia' in navigator.mediaDevices
     ) {
-      navigator.mediaDevices.getUserMedia(constraints);
+      navigator.mediaDevices.getUserMedia();
       console.log("Let's get this party started");
     }
     try {
@@ -50,10 +56,10 @@ export default {
       const videoDevices = devices.filter(
         (device) => device.kind === 'videoinput'
       );
-      console.log(videoDevices[1].deviceId);
+      console.log(videoDevices[0].deviceId);
       const stream = await navigator.mediaDevices.getUserMedia({
         video: true,
-        deviceId: { exact: videoDevices[1].deviceId },
+        deviceId: { exact: videoDevices[0].deviceId },
       });
       console.log(videoDevices);
       this.$refs.video.srcObject = stream;
@@ -95,13 +101,16 @@ export default {
   height: 640px;
   background-color: white;
   border-radius: 20px;
+  position: initial;
 }
 
 .video-container {
+  position: initial;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   width: 960px;
   height: 540px;
+  object-fit: cover;
 }
 
 .take-photo-icon-container {
@@ -110,6 +119,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: initial;
 }
 
 .close-modal {
@@ -118,5 +128,50 @@ export default {
   right: 20px;
   background-color: transparent;
   border: 0px;
+}
+
+@media only screen and (max-width: 600px) {
+  .custom-modal {
+    z-index: 2;
+    width: 100%;
+    height: calc(100% - 56px);
+    background-color: transparent;
+    border-radius: 20px;
+    border-radius: 0px;
+  }
+
+  .video-container {
+    transform: rotate(90deg);
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    transform-origin: bottom left;
+    width: 70vh;
+    height: 100vw;
+    margin-top: -100vw;
+    position: fixed;
+    top: 15%;
+    left: 0px;
+    object-fit: cover;
+  }
+  .custom-modal-drawer {
+    z-index: 5;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background-color: white;
+    height: 100vh;
+    width: 100vw;
+  }
+  .take-photo-icon-container {
+    position: fixed;
+    top: 87%;
+    left: 0%;
+  }
+  .close-modal {
+    z-index: 4;
+    position: fixed;
+    top: 75px;
+    right: 15px;
+  }
 }
 </style>

@@ -34,5 +34,9 @@ export default {};
   font-weight: 700;
   margin-top: 15px;
   margin-bottom: 6px;
+  padding-left: 10%;
+  padding-right: 10%;
+  text-align: center;
+  color: #2c3e50;
 }
 </style>

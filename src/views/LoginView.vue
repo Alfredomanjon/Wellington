@@ -1,7 +1,50 @@
 <template>
   <div class="login-container">
     <div class="row">
-      <div class="col-12 col-lg-6 login-preview-container">
+      <div class="col-12 col-lg-6" v-if="this.screenWidth <= 600">
+        <div class="login-form-container">
+          <div class="login-form-flex">
+            <form class="login-form">
+              <p class="login-form-title">Inicio de sesión</p>
+              <p class="login-form-subtitle">
+                Accede con una cuenta existente de Wellington, si no tienes
+                cuenta puedes registrarte a la izquierda.
+              </p>
+              <div class="login-inputs-container">
+                <input
+                  type="email"
+                  class="form-control login-input"
+                  aria-describedby="emailHelp"
+                  placeholder="Correo Electrónico"
+                  v-model="email"
+                />
+              </div>
+              <div class="login-inputs-container">
+                <input
+                  type="password"
+                  class="form-control login-input"
+                  aria-describedby="emailHelp"
+                  placeholder="Contraseña"
+                  v-model="password"
+                />
+              </div>
+              <div class="login-inputs-container">
+                <input
+                  class="btn login-submit-button"
+                  v-on:click="signIn()"
+                  value="Acceder"
+                />
+              </div>
+              <div class="route-link-to-signup-container">
+                <a @click="this.scrollSignUp" class="route-link-to-signup-title"
+                  >Registrárme</a
+                >
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-lg-6 login-preview-container" id="signupSeccion">
         <div>
           <div class="login-logo-container">
             <img
@@ -12,7 +55,7 @@
             />
           </div>
           <p class="login-slogan">¡Clasifica tus platos al vuelo!</p>
-          <div class="wellington-proceeds-container row">
+          <div class="wellington-proceeds-container">
             <img
               alt="wellington check"
               src="../assets/check.png"
@@ -23,7 +66,7 @@
               Siempre a tu disposición. Disponible 24 horas / 365 dias al año.
             </p>
           </div>
-          <div class="wellington-proceeds-container row">
+          <div class="wellington-proceeds-container">
             <img
               alt="wellington check"
               src="../assets/check.png"
@@ -34,7 +77,7 @@
               Clasifica tus platos en segundos. En un abrir y cerrar de ojos.
             </p>
           </div>
-          <div class="wellington-proceeds-container row">
+          <div class="wellington-proceeds-container">
             <img
               alt="wellington check"
               src="../assets/check.png"
@@ -50,7 +93,7 @@
           </div>
         </div>
       </div>
-      <div class="col-12 col-lg-6">
+      <div class="col-12 col-lg-6" v-if="this.screenWidth > 600">
         <div class="login-form-container">
           <div class="login-form-flex">
             <form class="login-form">
@@ -100,7 +143,11 @@ export default {
     return {
       email: '',
       password: '',
+      screenWidth: 0,
     };
+  },
+  created() {
+    this.screenWidth = window.innerWidth;
   },
   methods: {
     async signIn() {
@@ -122,6 +169,11 @@ export default {
       } catch (error) {
         console.log('error signing out: ', error);
       }
+    },
+    scrollSignUp() {
+      console.log('Entro');
+      const actionHandler = document.querySelector('#signupSeccion');
+      actionHandler.scrollIntoView({ behavior: 'smooth' });
     },
   },
 };
@@ -159,6 +211,7 @@ export default {
 
 .wellington-proceeds-container {
   padding-bottom: 10px;
+  display: flex;
 }
 
 .wellington-proceeds {
@@ -180,15 +233,16 @@ export default {
   display: flex;
   align-items: center;
   width: 70%;
-  height: 600px;
+  height: 560px;
   border-radius: 15px;
   background-color: rgb(250, 250, 250);
 }
 
 .login-form-title {
-  margin-top: -8%;
+  margin-top: -2%;
   font-size: 220%;
-  font-weight: 600;
+  font-weight: 700;
+  color: #2c3e50;
   text-align: center;
 }
 
@@ -236,6 +290,25 @@ export default {
   text-decoration: none;
 }
 
-@media (min-width: 1024px) {
+.route-link-to-signup-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 20px;
+}
+
+.route-link-to-signup-title {
+  color: #00898f;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+@media only screen and (max-width: 600px) {
+  .login-form-container {
+    padding-left: 0%;
+  }
+  .login-form-flex {
+    width: 100%;
+  }
 }
 </style>

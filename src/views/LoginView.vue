@@ -4,7 +4,7 @@
       <div class="col-12 col-lg-6" v-if="this.screenWidth <= 600">
         <div class="login-form-container">
           <div class="login-form-flex">
-            <form class="login-form">
+            <div class="login-form">
               <p class="login-form-title">Inicio de sesión</p>
               <p class="login-form-subtitle">
                 Accede con una cuenta existente de Wellington, si no tienes
@@ -14,7 +14,6 @@
                 <input
                   type="email"
                   class="form-control login-input"
-                  aria-describedby="emailHelp"
                   placeholder="Correo Electrónico"
                   v-model="email"
                 />
@@ -23,24 +22,21 @@
                 <input
                   type="password"
                   class="form-control login-input"
-                  aria-describedby="emailHelp"
                   placeholder="Contraseña"
                   v-model="password"
                 />
               </div>
               <div class="login-inputs-container">
-                <input
-                  class="btn login-submit-button"
-                  v-on:click="signIn()"
-                  value="Acceder"
-                />
+                <button class="btn login-submit-button" v-on:click="signIn()">
+                  Acceder
+                </button>
               </div>
               <div class="route-link-to-signup-container">
                 <a @click="this.scrollSignUp" class="route-link-to-signup-title"
                   >Registrárme</a
                 >
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </div>
@@ -96,7 +92,7 @@
       <div class="col-12 col-lg-6" v-if="this.screenWidth > 600">
         <div class="login-form-container">
           <div class="login-form-flex">
-            <form class="login-form">
+            <div class="login-form">
               <p class="login-form-title">Inicio de sesión</p>
               <p class="login-form-subtitle">
                 Accede con una cuenta existente de Wellington, si no tienes
@@ -121,13 +117,11 @@
                 />
               </div>
               <div class="login-inputs-container">
-                <input
-                  class="btn login-submit-button"
-                  v-on:click="signIn()"
-                  value="Acceder"
-                />
+                <button class="btn login-submit-button" v-on:click="signIn()">
+                  Acceder
+                </button>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </div>
@@ -137,6 +131,8 @@
 
 <script>
 import { Auth } from 'aws-amplify';
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 window.dispatchEvent(new Event('storage'));
 export default {
   data() {
@@ -153,13 +149,23 @@ export default {
     async signIn() {
       console.log(this.email);
       console.log(this.password);
+      let loader = this.$loading.show({
+        container: this.fullPage ? null : this.$refs.formContainer,
+        canCancel: true,
+        onCancel: this.onCancel,
+      });
       try {
         const user = await Auth.signIn(this.email, this.password);
         console.log(user);
         window.localStorage.setItem('user', JSON.stringify(user));
+        loader.hide();
         window.location.replace('/profile');
       } catch (error) {
-        console.log('error signing in', error);
+        loader.hide();
+        toast.error('Error al hacer login: ' + error, {
+          autoClose: 4000,
+          position: toast.POSITION.BOTTOM_CENTER,
+        }); // ToastOptions
       }
     },
     async signOut() {
@@ -184,6 +190,7 @@ export default {
   min-height: 100vh;
   padding-left: 20px;
   padding-right: 20px;
+  background-color: white;
 }
 
 .login-preview-container {
@@ -202,6 +209,7 @@ export default {
 }
 
 .login-slogan {
+  color: #2c3e50;
   padding-top: 20px;
   width: 100%;
   font-size: 250%;
@@ -220,6 +228,7 @@ export default {
   display: flex;
   align-items: center;
   font-size: 16px;
+  color: #2c3e50;
 }
 
 .login-form-container {
@@ -248,6 +257,7 @@ export default {
 
 .login-form-subtitle {
   display: flex;
+  color: #2c3e50;
   text-align: center;
   padding-left: 10%;
   padding-right: 10%;
@@ -303,12 +313,18 @@ export default {
   font-size: 18px;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 600px), (orientation: landscape) {
   .login-form-container {
     padding-left: 0%;
   }
   .login-form-flex {
     width: 100%;
+  }
+}
+
+@media (orientation: landscape) {
+  body {
+    transform: rotate(90deg);
   }
 }
 </style>

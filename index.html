@@ -4,7 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <link rel="icon" href="/favicon.ico">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="color-scheme" content="light">
   <title>Wellington</title>
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
@@ -28,7 +29,22 @@
   <script>
     window.global = window;
     var exports = {};
+    if (screen.orientation && screen.orientation.lock) {
+      // El navegador soporta la API Screen Orientation
+      screen.orientation.lock('portrait');
+      console.log('El navegador soporta la API Screen Orientation');
+    } else {
+      // El navegador no soporta la API Screen Orientation
+      console.log('El navegador no soporta la API Screen Orientation');
+    }
   </script>
 </body>
+
+<style>
+  body {
+    background-color: #FFFFFF;
+    /* Color blanco */
+  }
+</style>
 
 </html>

@@ -75,6 +75,10 @@ export default {
         this.createUserInfoJSON();
         this.setNextPage();
       } catch (error) {
+        toast.error('Error crear la cuenta: ' + error, {
+          autoClose: 4000,
+          position: toast.POSITION.BOTTOM_CENTER,
+        });
         console.log('error signing up:', error);
       }
     },

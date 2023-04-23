@@ -59,6 +59,7 @@ export default {
   align-items: center;
   flex-direction: column;
   gap: 0px;
+  background-color: white;
 }
 
 .nameform-title {
@@ -66,6 +67,7 @@ export default {
   font-weight: 700;
   margin-top: 15px;
   margin-bottom: 15px;
+  color: #2c3e50;
 }
 
 .nameform-input {

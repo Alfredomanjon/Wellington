@@ -76,7 +76,7 @@
         </router-link>
       </form>
       <form v-if="!this.isLogged" class="form-inline my-0 my-lg-0">
-        <router-link to="/login">
+        <router-link to="/login" style="text-decoration: none">
           <button
             class="navbar-profile-container navbar-item d-flex justify-content-end align-items-center"
           >
@@ -176,6 +176,13 @@ export default {
 }
 
 @media only screen and (max-width: 600px) {
+  .navbar-profile-container {
+    padding-right: 0px;
+    padding-left: 0px;
+  }
+}
+
+@media screen and (orientation: landscape) {
   .navbar-profile-container {
     padding-right: 0px;
     padding-left: 0px;

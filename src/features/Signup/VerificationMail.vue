@@ -55,13 +55,27 @@ export default {
     async signIn() {
       try {
         const user = await Auth.signIn(this.username, this.password);
-        const res = await post('/restaurant', {
-          restaurantId: user['username'],
-          data: this.data,
-        });
+        console.log(user);
+        try {
+          const res = await post('/restaurant', {
+            restaurantId: user['username'],
+            data: this.data,
+          });
+          console.log(res);
+        } catch (error) {
+          toast.error('Error al crear tu espacio Welligton: ' + error, {
+            autoClose: 4000,
+            position: toast.POSITION.BOTTOM_CENTER,
+          });
+          console.log('error en post: ', error);
+        }
         window.localStorage.setItem('user', JSON.stringify(user));
         window.location.replace('/profile');
       } catch (error) {
+        toast.error('Error al acceder a tu cuenta wellington: ' + error, {
+          autoClose: 4000,
+          position: toast.POSITION.BOTTOM_CENTER,
+        });
         console.log('error signing in', error);
       }
     },
@@ -69,6 +83,13 @@ export default {
       try {
         await Auth.resendSignUp(this.username);
       } catch (err) {
+        toast.error(
+          'No se ha podido enviar de nuevo el código, inténtelo más tarde',
+          {
+            autoClose: 4000,
+            position: toast.POSITION.BOTTOM_CENTER,
+          }
+        );
         console.log('error resending code: ', err);
       }
     },
@@ -77,6 +98,10 @@ export default {
         await Auth.confirmSignUp(this.username, this.code);
         await this.signIn();
       } catch (error) {
+        toast.error('Error al confirmar el correo:' + error, {
+          autoClose: 4000,
+          position: toast.POSITION.BOTTOM_CENTER,
+        });
         console.log('error confirming sign up', error);
       }
     },
@@ -93,6 +118,7 @@ export default {
   align-items: center;
   flex-direction: column;
   gap: 0px;
+  background-color: white;
 }
 
 .verification-title {
@@ -108,6 +134,7 @@ export default {
   text-align: center;
   padding-left: 10px;
   padding-right: 10px;
+  color: #2c3e50;
 }
 
 .resend-button {

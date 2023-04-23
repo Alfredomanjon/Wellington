@@ -85,6 +85,7 @@ export default {
   align-items: center;
   flex-direction: column;
   gap: 15px;
+  background-color: white;
 }
 
 .restaurant-title {

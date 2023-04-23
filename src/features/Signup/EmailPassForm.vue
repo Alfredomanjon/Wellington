@@ -82,6 +82,7 @@ export default {
   align-items: center;
   flex-direction: column;
   gap: 0px;
+  background-color: white;
 }
 
 .checkpoint-title {
@@ -96,6 +97,7 @@ export default {
   width: 350px;
   display: flex;
   justify-content: left;
+  color: #2c3e50;
 }
 
 .email-pass-form-button {

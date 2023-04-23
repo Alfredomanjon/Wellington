@@ -39,6 +39,7 @@ export default {
   align-items: center;
   flex-direction: column;
   gap: 0px;
+  background-color: white;
 }
 .onboarding-title {
   font-size: 40px;

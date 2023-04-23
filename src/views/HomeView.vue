@@ -31,10 +31,11 @@ export default {};
   align-items: center;
   flex-direction: column;
   min-height: 100vh;
+  background-color: white;
 }
 
 .demo-home {
-  margin-top: 30%;
+  margin-top: 120px;
   display: flex;
   justify-content: center;
   align-items: center;

@@ -1,7 +1,9 @@
 <template>
   <div class="custom-modal-drawer">
     <button
-      v-if="this.screenWidth >= 600"
+      v-if="
+        this.screenWidth >= 999 && this.screenOrientation == 'landscape-primary'
+      "
       class="close-modal"
       @click="this.closeModal()"
     >
@@ -19,12 +21,25 @@
       />
     </button>
     <div class="custom-modal">
-      <video class="video-container" ref="video" autoplay></video>
+      <video
+        class="video-container"
+        ref="video"
+        autoplay
+        playsinline
+        loop
+      ></video>
       <div class="take-photo-icon-container">
         <img
           @click="this.takeCapture()"
           src="../assets/take-photo-icon.png"
-          width="65"
+          width="75"
+        />
+      </div>
+      <div class="change-camera-icon-container">
+        <img
+          @click="this.changeCamera()"
+          src="../assets/change-camera-icon.png"
+          width="35"
         />
       </div>
     </div>
@@ -32,10 +47,14 @@
 </template>
 
 <script>
+import Button from './Button.vue';
 export default {
+  components: { Button },
   apply() {
     return {
       screenWidth: 0,
+      screenOrientation: '',
+      cameraSelectedId: '',
     };
   },
   props: {
@@ -43,7 +62,7 @@ export default {
   },
   async created() {
     this.screenWidth = window.innerWidth;
-    console.log(this.screenWidth);
+    this.screenOrientation = window.screen.orientation.type;
     if (
       'mediaDevices' in navigator &&
       'getUserMedia' in navigator.mediaDevices
@@ -56,10 +75,10 @@ export default {
       const videoDevices = devices.filter(
         (device) => device.kind === 'videoinput'
       );
-      console.log(videoDevices[0].deviceId);
+      this.cameraSelectedId = videoDevices[0].deviceId;
       const stream = await navigator.mediaDevices.getUserMedia({
         video: true,
-        deviceId: { exact: videoDevices[0].deviceId },
+        deviceId: { exact: this.cameraSelectedId },
       });
       console.log(videoDevices);
       this.$refs.video.srcObject = stream;
@@ -76,6 +95,18 @@ export default {
       ctx.drawImage(this.$refs.video, 0, 0, 965, 540);
       image = canvas.toDataURL('image/jpeg');
       console.log(image);
+    },
+    async changeCamera() {
+      console.log('ENTRO');
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      const index = devices.indexOf(
+        devices.find((x) => x.deviceId === this.cameraSelectedId)
+      );
+      if (devices[index + 1]) {
+        this.cameraSelectedId = devices[index + 1].deviceId;
+      } else {
+        this.cameraSelectedId = devices[0].deviceId;
+      }
     },
   },
 };
@@ -172,6 +203,61 @@ export default {
     position: fixed;
     top: 75px;
     right: 15px;
+  }
+}
+
+@media screen and (max-width: 999px) and (orientation: landscape) {
+  .custom-modal {
+    z-index: 2;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    height: calc(100% - 56px);
+    background-color: transparent;
+    border-radius: 20px;
+    border-radius: 0px;
+  }
+
+  .video-container {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    transform-origin: bottom left;
+    width: 70vw;
+    height: 100vh;
+    margin-left: 15vw;
+    position: fixed;
+    top: 56px;
+    left: 0px;
+    object-fit: cover;
+  }
+  .custom-modal-drawer {
+    z-index: 5;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background-color: white;
+    height: 100vh;
+    width: 100vw;
+  }
+  .take-photo-icon-container {
+    position: fixed;
+    top: 46%;
+    right: 2.5%;
+    width: 90px;
+    height: 90px;
+  }
+  .close-modal {
+    z-index: 4;
+    position: fixed;
+    top: 75px;
+    right: 5%;
+  }
+
+  .change-camera-icon-container {
+    z-index: 4;
+    position: fixed;
+    bottom: 14px;
+    right: 5%;
   }
 }
 </style>

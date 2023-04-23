@@ -27,6 +27,7 @@ export default {};
   flex-direction: column;
   gap: 0px;
   animation: fadeIn 1s;
+  background-color: white;
 }
 
 .transition-title {

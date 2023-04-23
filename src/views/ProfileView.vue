@@ -122,12 +122,14 @@ export default {
   font-weight: 700;
   font-size: 40px;
   margin-bottom: 0px;
+  color: #2c3e50;
 }
 
 .profile-sub-title {
   font-weight: 700;
   font-size: 26px;
   margin-bottom: 0px;
+  color: #2c3e50;
 }
 
 .profile-close-session-container {

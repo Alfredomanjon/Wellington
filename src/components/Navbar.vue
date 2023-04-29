@@ -181,11 +181,4 @@ export default {
     padding-left: 0px;
   }
 }
-
-@media screen and (orientation: landscape) {
-  .navbar-profile-container {
-    padding-right: 0px;
-    padding-left: 0px;
-  }
-}
 </style>

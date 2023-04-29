@@ -241,8 +241,8 @@ export default {
 .login-form-flex {
   display: flex;
   align-items: center;
-  width: 70%;
   height: 560px;
+  max-width: 500px;
   border-radius: 15px;
   background-color: rgb(250, 250, 250);
 }
@@ -313,7 +313,7 @@ export default {
   font-size: 18px;
 }
 
-@media only screen and (max-width: 600px), (orientation: landscape) {
+@media only screen and (max-width: 600px) {
   .login-form-container {
     padding-left: 0%;
   }

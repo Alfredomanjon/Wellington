@@ -32,6 +32,8 @@
 <script>
 import { ref } from 'vue';
 import { Auth } from 'aws-amplify';
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 import Onboarding from '../features/Signup/Onboarding.vue';
 import Transition1 from '../features/Signup/Transition1.vue';
 import NameForm from '../features/Signup/NameForm.vue';

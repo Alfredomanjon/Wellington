@@ -31,10 +31,12 @@
 
 <script>
 import { Auth } from 'aws-amplify';
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
+import { post } from '../../utils/api';
 import FadeInContainer from '../../components/FadeInContainer.vue';
 import Input from '../../components/DefaultInput.vue';
 import Button from '../../components/Button.vue';
-import { post } from '../../utils/api';
 export default {
   data() {
     return {

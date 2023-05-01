@@ -24,7 +24,7 @@
           id="input-archivo"
           type="file"
           accept="image/*"
-          @change="cargarArchivo"
+          @change="makePredict"
           hidden
         />
         <PredictButton
@@ -40,32 +40,44 @@
       </div>
       <p class="profile-sub-title">Platos registrados en el modelo</p>
       <div class="dishes-container">
-        <DishCard />
-        <div
+        <button
           class="new-dish-container d-flex justify-content-center align-items-center"
         >
           <img src="../assets/add-dish-icon.png" width="60" />
-        </div>
+        </button>
+        <DishCard
+          v-for="item in this.restaurantDishes"
+          :key="item"
+          :defaultName="item"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import getIsLogged from '../utils/getIsLogged';
+import getIsLogged, { getCurrentRestaurantIId } from '../utils/getIsLogged';
 import Button from '../components/Button.vue';
 import PredictButton from '../components/PredictButton.vue';
 import DishCard from '../components/DishCard.vue';
 import CameraModal from '../components/CameraModal.vue';
 import imageIcon from '../assets/drop-image-icon.png';
 import cameraIcon from '../assets/camera-icon.png';
-console.log(getIsLogged());
+import { toast } from 'vue3-toastify';
+import { get, post } from '../utils/api';
+
+const getDishes = async (restaurantId) => {
+  const value = await get('/dishes?restaurantId=' + restaurantId);
+  return value;
+};
+
 export default {
   data() {
     return {
       cameraImage: cameraIcon,
       addImage: imageIcon,
       openModal: false,
+      restaurantDishes: [],
     };
   },
   created() {
@@ -79,16 +91,81 @@ export default {
     DishCard,
     CameraModal,
   },
+  async mounted() {
+    let loader = this.$loading.show({
+      container: this.fullPage ? null : this.$refs.formContainer,
+      canCancel: true,
+      onCancel: this.onCancel,
+    });
+    const restaurantId = getCurrentRestaurantIId();
+    try {
+      const dishes = await getDishes(restaurantId);
+      this.restaurantDishes = dishes.dishesNames;
+      loader.hide();
+    } catch (e) {
+      loader.hide();
+    }
+  },
   methods: {
+    async makePredict(event) {
+      let loader = this.$loading.show({
+        container: this.fullPage ? null : this.$refs.formContainer,
+        canCancel: true,
+        onCancel: this.onCancel,
+      });
+      const toBase64 = (file) =>
+        new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = reject;
+        });
+      const imageBase64 = await toBase64(event.target.files[0]);
+      try {
+        const res = await post('/predict', {
+          image: imageBase64.split(',')[1],
+        });
+        const response = await res.json();
+        loader.hide();
+        if (response.statusCode === 200) {
+          toast.success(
+            response.body
+              .map((x) => Object.entries(x).map((y) => `[${y[0]},${y[1]}]`))
+              .join(','),
+            {
+              autoClose: 4000,
+              position: toast.POSITION.BOTTOM_CENTER,
+            }
+          );
+        } else if (response.statusCode === 200) {
+          toast.error(
+            'Time Out: Deja 20 segundos y vuelve a enviar una imagen',
+            {
+              autoClose: 4000,
+              position: toast.POSITION.BOTTOM_CENTER,
+            }
+          );
+        } else {
+          toast.error(
+            'No se ha podido hacer la predicción. Inténtalo más tarde',
+            {
+              autoClose: 4000,
+              position: toast.POSITION.BOTTOM_CENTER,
+            }
+          );
+        }
+      } catch (error) {
+        loader.hide();
+        toast.error('Predicción no enviada. Inténtalo más tarde', {
+          autoClose: 4000,
+          position: toast.POSITION.BOTTOM_CENTER,
+        });
+      }
+    },
     closeSession() {
       window.localStorage.removeItem('user');
       this.isLogged = false;
       window.location.replace('/login');
-    },
-    cargarArchivo(event) {
-      const archivo = event.target.files[0];
-      console.log('Archivo seleccionado:', archivo);
-      // Aquí puedes trabajar con el archivo, por ejemplo, cargarlo en una API o procesarlo en el cliente
     },
     chooseFiles() {
       document.getElementById('input-archivo').click();
@@ -176,10 +253,9 @@ export default {
 
 .dishes-container {
   margin-top: 20px;
-  display: flex;
-  justify-content: start;
-  align-items: start;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 150px);
+  gap: 20px;
 }
 
 .new-dish-container {
@@ -188,6 +264,7 @@ export default {
   border-radius: 20px;
   height: 150px;
   width: 150px;
+  background-color: white;
 }
 
 @media only screen and (max-width: 600px) {

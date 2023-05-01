@@ -2,13 +2,18 @@
   <div
     class="exists-dish-container d-flex justify-content-center align-items-center"
   >
-    <p class="exists-dish-title">Bollo Asturiano</p>
+    <p class="exists-dish-title">{{ this.defaultName }}</p>
   </div>
 </template>
 
 <script>
 export default {
-  props: {},
+  props: {
+    defaultName: 'ttest',
+  },
+  mounted() {
+    console.log(this.defaultName);
+  },
 };
 </script>
 
@@ -18,6 +23,14 @@ export default {
   border-radius: 20px;
   height: 150px;
   width: 150px;
+  padding: 10px;
+}
+
+.exists-dish-container p {
+  width: 120px;
+  padding: 0px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .exists-dish-title {

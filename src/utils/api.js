@@ -8,3 +8,13 @@ export async function post(resource, body) {
   });
   return data;
 }
+
+export async function get(resource) {
+  const data = await fetch(baseUrl + resource, {
+    method: 'get',
+    headers: { 'Content-Type': 'text/plain' },
+  });
+  const resultData = await data.json();
+
+  return resultData;
+}

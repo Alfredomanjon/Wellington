@@ -14,9 +14,9 @@
         src="../assets/demo-home-icon.png"
         width="60"
       />
-      <p class="demo-version">v0.1.0</p>
+      <p class="demo-version">v0.2.0</p>
+      <p class="demo-copyright">© Wellington-Eagle 2023</p>
     </div>
-    <p class="demo-copyright">© Wellington-Eagle 2023</p>
   </div>
 </template>
 

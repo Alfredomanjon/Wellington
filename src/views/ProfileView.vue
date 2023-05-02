@@ -1,5 +1,6 @@
 <template>
   <CameraModal v-if="this.openModal" :closeModal="this.closeCameraModal" />
+  <NewDishCard v-if="this.newDishModal" :closeModal="this.closeNewDishModal" />
   <div class="profile-container">
     <div class="profile-top-container">
       <p class="profile-title">Mi Restaurante</p>
@@ -41,6 +42,7 @@
       <p class="profile-sub-title">Platos registrados en el modelo</p>
       <div class="dishes-container">
         <button
+          v-on:click="this.openNewDishModal()"
           class="new-dish-container d-flex justify-content-center align-items-center"
         >
           <img src="../assets/add-dish-icon.png" width="60" />
@@ -61,6 +63,7 @@ import Button from '../components/Button.vue';
 import PredictButton from '../components/PredictButton.vue';
 import DishCard from '../components/DishCard.vue';
 import CameraModal from '../components/CameraModal.vue';
+import NewDishCard from '../components/NewDishCard.vue';
 import imageIcon from '../assets/drop-image-icon.png';
 import cameraIcon from '../assets/camera-icon.png';
 import { toast } from 'vue3-toastify';
@@ -77,6 +80,7 @@ export default {
       cameraImage: cameraIcon,
       addImage: imageIcon,
       openModal: false,
+      newDishModal: false,
       restaurantDishes: [],
     };
   },
@@ -90,6 +94,7 @@ export default {
     PredictButton,
     DishCard,
     CameraModal,
+    NewDishCard,
   },
   async mounted() {
     let loader = this.$loading.show({
@@ -133,11 +138,11 @@ export default {
               .map((x) => Object.entries(x).map((y) => `[${y[0]},${y[1]}]`))
               .join(','),
             {
-              autoClose: 4000,
+              autoClose: 10000,
               position: toast.POSITION.BOTTOM_CENTER,
             }
           );
-        } else if (response.statusCode === 200) {
+        } else if (response.statusCode === 504) {
           toast.error(
             'Time Out: Deja 20 segundos y vuelve a enviar una imagen',
             {
@@ -175,6 +180,13 @@ export default {
     },
     closeCameraModal() {
       this.openModal = false;
+    },
+    openNewDishModal() {
+      console.log('ENTRO');
+      this.newDishModal = true;
+    },
+    closeNewDishModal() {
+      this.newDishModal = false;
     },
   },
 };
@@ -267,6 +279,10 @@ export default {
   background-color: white;
 }
 
+.new-dish-container:hover {
+  background-color: #7ed4da5d;
+}
+
 @media only screen and (max-width: 600px) {
   .profile-title {
     font-weight: 700;
@@ -293,6 +309,14 @@ export default {
     padding-left: 30px;
     padding-right: 30px;
     padding-bottom: 80px;
+  }
+  .dishes-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    place-items: center;
+    margin-top: 20px;
+    gap: 20px;
+    row-gap: 30px;
   }
 }
 </style>
